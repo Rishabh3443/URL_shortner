@@ -13,7 +13,7 @@ Router.post("/", async (req,res)=>{
             error:"url is required"
         })
     }
-    if((url.startwith("http://")== false)&&(url.startwith("https://")==false)){
+    if((url.startsWith("http://")== false)&&(url.startsWith("https://")==false)){
         return res.status(400).json({ error: "Please enter a valid URL starting with http:// or https://"})
     }
     if(url.length>2048){
@@ -26,7 +26,7 @@ Router.post("/", async (req,res)=>{
 
 const newUrl = await urlModel.create({
    originalUrl:url,
-   shortCode:code,
+   shortcode:code,
 })
     
         res.status(201).json({
@@ -36,6 +36,37 @@ const newUrl = await urlModel.create({
             }
         })
 
+})
+
+Router.get("/", async (req,res)=>{
+
+    const urls = await urlModel.find();
+
+    res.status(201).json({
+        message:"urls fetched successfully",
+        data:{
+             urls
+        }
+    })
+})
+
+Router.delete("/:id", async (req,res)=>{
+    const {id} = req.params;
+
+    const url = await urlModel.findById(id);
+
+    if(!url){
+        return res.status(404).json({
+            message:"url not found"
+        })
+
+    }
+
+    await urlModel.findByIdAndDelete()
+
+    return res.status(201).json({
+        message:"url deleted successfully"
+    })
 })
 
 

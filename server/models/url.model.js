@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 const urlSchema = new mongoose.Schema({
 
-    originalurl:{
+    originalUrl:{
         type:String,
         required:true,
     },
@@ -12,7 +12,7 @@ const urlSchema = new mongoose.Schema({
         required:true,
     },
     clicks:{
-      type:String,
+      type:Number,
       default:0,
     }
 
